@@ -7,6 +7,7 @@ class LoginPage(BasePage):
         self.should_be_login_url()
         self.should_be_login_form()
         self.should_be_register_form()
+        self.register_new_user()
 
     def should_be_login_url(self):
         # реализуйте проверку на корректный url адрес
@@ -24,3 +25,12 @@ class LoginPage(BasePage):
         assert self.is_element_present(*LoginPageLocators.REG_PASSWORD_1), "reg password1 is not present"
         assert self.is_element_present(*LoginPageLocators.REG_PASSWORD_2), "reg password2 is not present"
         assert self.is_element_present(*LoginPageLocators.REG_SUBMIT_BUTTON), "reg submit button is not present"
+
+    def register_new_user(self, email, password):
+
+        # на странице есть форма регистрации
+        self.browser.find_element(*LoginPageLocators.REG_EMAIL).send_keys(email)
+        self.browser.find_element(*LoginPageLocators.REG_PASSWORD_1).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.REG_PASSWORD_2).send_keys(password)
+        #регистрируемся
+        self.browser.find_element(*LoginPageLocators.REG_SUBMIT_BUTTON).click()
