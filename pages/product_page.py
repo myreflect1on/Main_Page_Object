@@ -19,10 +19,13 @@ class ProductPage(BasePage):
         self.should_not_be_success_message()
 
     def message_disappeared_after_adding_product_to_basket(self):
-        pass
+        self.wait_until_not_dissapear()
 
 
 
+    def wait_until_not_dissapear(self):
+        #Ждем когда исчезнет
+        assert self.is_disappeared(*ProductPageLocator.MESSAGE_ABOUT_ADD), "Success message is presented, is not disappeared"
 
     def find_button_basket(self):
         #Add to basket
