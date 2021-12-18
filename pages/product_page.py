@@ -1,5 +1,5 @@
-from .base_page import BasePage
-from .locators import ProductPageLocator
+from pages.base_page import BasePage
+from pages.locators import ProductPageLocator
 import math
 from selenium.common.exceptions import NoAlertPresentException
 import time
@@ -11,6 +11,27 @@ class ProductPage(BasePage):
         self.should_be_message_about_adding()
         self.should_be_message_basket_total()
 
+    def guest_cant_see_success_message_after_adding_product_to_basket(self):
+        self.find_button_basket()
+        self.should_not_be_success_message()
+
+    def guest_cant_see_success_message(self):
+        self.should_not_be_success_message()
+
+    def message_disappeared_after_adding_product_to_basket(self):
+        pass
+
+
+
+
+    def find_button_basket(self):
+        #Add to basket
+        basket_add = self.browser.find_element(*ProductPageLocator.ADD_SUBMITT_BUTTON)
+        basket_add.click()
+
+    def should_not_be_success_message(self):
+        #message is presented
+        assert self.is_not_element_present(*ProductPageLocator.MESSAGE_ABOUT_ADD), "Success message is presented, but should not be"
 
     def should_be_add_product_key(self):
         assert self.is_element_present(*ProductPageLocator.ADD_SUBMITT_BUTTON), "ADD_SUBMITT_BUTTON is not present"
@@ -50,4 +71,4 @@ class ProductPage(BasePage):
         product_price = self.browser.find_element(*ProductPageLocator.PRODUCT_PRICE).text
         # Присутствует стоимостью корзины
         assert product_price in message_basket_total, "No summ product in basket"
-        time.sleep(5)
+        time.sleep(10)
